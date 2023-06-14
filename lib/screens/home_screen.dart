@@ -15,10 +15,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  bool _isConnected = false;
 
+  @override
+  void initState() {
+    _connectivity.checkConnectivity().then((result) {
+      setState(() {
+        _connectionStatus = result;
+        _isConnected = _connectionStatus != ConnectivityResult.none;
+      });
+    });
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -33,17 +44,19 @@ ConnectivityResult _connectionStatus = ConnectivityResult.none;
     _connectivitySubscription.cancel();
     super.dispose();
   }
-Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-  setState(() {
-    _connectionStatus = result;
-  });
 
-  if (_connectionStatus != ConnectivityResult.none) {
-    BlocProvider.of<AppBloc>(context).add(OnGetCities());
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectionStatus = result;
+    });
+
+    if (result != ConnectivityResult.none && !_isConnected) {
+      _isConnected = true;
+      BlocProvider.of<AppBloc>(context).add(OnGetCities());
+    } else {
+      _isConnected = false;
+    }
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -70,14 +83,18 @@ Future<void> _updateConnectionStatus(ConnectivityResult result) async {
           ),
           backgroundColor:
               state.isLightTheme ? const Color(0xFFc1d375) : Colors.black,
-          body: 
-        state.isLoading==true  ? const Center(child: CircularProgressIndicator(color: Color(0xFFef233c),))
-          :
-          
-          state.error != ""
-              ? ContainerError(state: state,)
-              : CitiesList(state: state,));
+          body: state.isLoading == true
+              ? const Center(
+                  child: CircularProgressIndicator(
+                  color: Color(0xFFef233c),
+                ))
+              : state.error != ""
+                  ? ContainerError(
+                      state: state,
+                    )
+                  : CitiesList(
+                      state: state,
+                    ));
     });
   }
 }
-

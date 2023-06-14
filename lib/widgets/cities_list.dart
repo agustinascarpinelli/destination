@@ -62,7 +62,7 @@ class CitiesList extends StatelessWidget {
                 arguments: city);
           },
           child: Hero(
-            tag: city.id!,
+            tag: city.name!,
             child: CityContainer(
               city: city,
               state: state,

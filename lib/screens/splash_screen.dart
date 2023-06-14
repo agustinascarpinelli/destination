@@ -42,10 +42,12 @@ class _SplashScreenCustomState extends State<SplashScreenCustom>
               'assets/lottie1.json',
               controller: _controller, onLoaded: (compos) {
             _controller
-              ..duration = compos.duration * 2
+            
+              ..duration = compos.duration * 1
               ..forward().then((value) {
-
-                Navigator.pushReplacement(
+      final appBloc=BlocProvider.of<AppBloc>(context).state;
+if(appBloc.isLoading==false)
+  {              Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation, secondaryAnimation) =>
@@ -57,9 +59,9 @@ class _SplashScreenCustomState extends State<SplashScreenCustom>
                         child: child,
                       );
                     },
-                    transitionDuration: const Duration(milliseconds: 2000),
+                    transitionDuration: const Duration(milliseconds: 5000),
                   ),
-                );
+                );}
               });
           }),
           AnimatedBuilder(

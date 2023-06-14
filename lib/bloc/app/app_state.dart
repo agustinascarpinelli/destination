@@ -10,7 +10,7 @@ final List<CityModel> ?citiesSearch;
 final bool isVerticaLayout;
 final bool errorSearch;
 
-  AppState({this.errorSearch=false,this.citiesSearch, this.isVerticaLayout=true,this.isLoading=false, this.isLightTheme=true,this.isConnected, this.error = "", this.cities});
+  AppState({this.errorSearch=false,this.citiesSearch, this.isVerticaLayout=true,this.isLoading, this.isLightTheme=true,this.isConnected, this.error = "", this.cities});
 
  
 

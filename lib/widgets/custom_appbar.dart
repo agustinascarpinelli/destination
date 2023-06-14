@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../bloc/app/app_bloc.dart';
 import '../models/city_model.dart';
 
-
 class CustomAppBar extends StatelessWidget {
   final CityModel city;
 
-  const CustomAppBar({super.key, required this.city,});
+  const CustomAppBar({
+    super.key,
+    required this.city,
+  });
   @override
   Widget build(BuildContext context) {
-    final appState=BlocProvider.of<AppBloc>(context);
+    final appState = BlocProvider.of<AppBloc>(context);
     return SliverAppBar(
-         leading: Hero(
-          tag: city.id!,
+        leading: Hero(
+          tag: city.country!,
           child: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -22,17 +25,17 @@ class CustomAppBar extends StatelessWidget {
               icon: const Icon(Icons.arrow_back)),
         ),
         actions: [
-           IconButton(
-               splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  icon: Icon(
-                    appState.state.isLightTheme ? Icons.dark_mode : Icons.light_mode,
-                    color: const Color(0xFFffd166),
-                  ),
-                  onPressed: () {
-                    appState.add(OnChangeTheme());
-                  },
-            )
+          IconButton(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            icon: Icon(
+              appState.state.isLightTheme ? Icons.dark_mode : Icons.light_mode,
+              color: const Color(0xFFffd166),
+            ),
+            onPressed: () {
+              appState.add(OnChangeTheme());
+            },
+          )
         ],
         expandedHeight: 400,
         floating: false,
@@ -42,7 +45,6 @@ class CustomAppBar extends StatelessWidget {
             Navigator.pushNamed(context, 'zoom', arguments: city);
           },
           child: FlexibleSpaceBar(
-              
               centerTitle: true,
               titlePadding: const EdgeInsets.all(0),
               title: Container(
@@ -50,7 +52,10 @@ class CustomAppBar extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                 alignment: Alignment.bottomRight,
                 color: Colors.black12,
-                child: Text(city.name!,style: const TextStyle(fontSize: 10),),
+                child: Text(city.name!,
+                    style: TextStyle(
+                        fontSize: 10,
+                        fontFamily: GoogleFonts.amaticSc().fontFamily)),
               ),
               background: Hero(
                 tag: city.id!,
