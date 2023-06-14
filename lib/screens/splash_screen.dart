@@ -19,7 +19,7 @@ class _SplashScreenCustomState extends State<SplashScreenCustom>
   @override
   void initState() {
     super.initState();
-    appBloc=BlocProvider.of<AppBloc>(context);
+    appBloc = BlocProvider.of<AppBloc>(context);
     appBloc.add(OnGetCities());
     _controller = AnimationController(vsync: this);
   }
@@ -32,36 +32,37 @@ class _SplashScreenCustomState extends State<SplashScreenCustom>
 
   @override
   Widget build(BuildContext context) {
-
+    final orientation= MediaQuery.of(context).orientation;
+    
     return Scaffold(
       backgroundColor: const Color(0XFFc1d375),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Lottie.asset(
-              'assets/lottie1.json',
-              controller: _controller, onLoaded: (compos) {
+          Lottie.asset('assets/lottie1.json', controller: _controller,
+          width: orientation==Orientation.portrait ?500 :200,
+              onLoaded: (compos) {
             _controller
-            
               ..duration = compos.duration * 1
               ..forward().then((value) {
-      final appBloc=BlocProvider.of<AppBloc>(context).state;
-if(appBloc.isLoading==false)
-  {              Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation, secondaryAnimation) =>
-                        const HomeScreen(),
-                    transitionsBuilder:
-                        (context, animation, secondaryAnimation, child) {
-                      return FadeTransition(
-                        opacity: animation,
-                        child: child,
-                      );
-                    },
-                    transitionDuration: const Duration(milliseconds: 5000),
-                  ),
-                );}
+                final appBloc = BlocProvider.of<AppBloc>(context).state;
+                if (appBloc.isLoading == false) {
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const HomeScreen(),
+                      transitionsBuilder:
+                          (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(
+                          opacity: animation,
+                          child: child,
+                        );
+                      },
+                      transitionDuration: const Duration(milliseconds: 3000),
+                    ),
+                  );
+                }
               });
           }),
           AnimatedBuilder(
@@ -79,10 +80,12 @@ if(appBloc.isLoading==false)
                           fontWeight: FontWeight.bold,
                           fontSize: 30),
                     ),
-                    const SizedBox(width: 20,),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     Lottie.asset(
                       'assets/lottie2.json',
-                      width: 100,
+                      width:orientation==Orientation.portrait ? 100 :50,
                       controller: _controller,
                     ),
                   ],
