@@ -21,7 +21,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
           (l) async => emit(
               state.copyWith(isConnected: true, error: l, isLoading: false)),
           (r) async => emit(
-              state.copyWith(cities: r, isConnected: true, isLoading: false)),
+              state.copyWith(cities: r, isConnected: true, isLoading: false,error:"")),
         );
       } else {
         emit(state.copyWith(
